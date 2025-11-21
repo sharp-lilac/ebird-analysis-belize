@@ -2,7 +2,7 @@
 
 ## Check required packages ------------------------
 options(repos = c(CRAN = "https://cran.rstudio.com/"))
-required_packages <- c("dplyr", "auk")
+required_packages <- c("tidyverse", "ggpubr", "auk")
 install_if_missing <- function(package) {
     if (!requireNamespace(package, quietly = TRUE)) {
         install.packages(package)
@@ -11,5 +11,6 @@ install_if_missing <- function(package) {
 invisible(lapply(required_packages, install_if_missing))
 
 ## Attach packages ------------------------
-library(dplyr)
+library(tidyverse)
+library(ggpubr)
 library(auk) # Note: requires Cygwin installed on Windows computers
