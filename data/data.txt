@@ -1,0 +1,1 @@
+The data folder is intended to store the eBird data export, including the basic dataset, the sampling dataset, and the unvetted dataset for Belize. The export should be placed here in order to run the scripts properly.
