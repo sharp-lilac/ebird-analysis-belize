@@ -50,3 +50,29 @@ mean(ebd_basic$duration_minutes, na.rm = TRUE) # mean duration (minutes)
 mean(ebd_basic$effort_distance_km, na.rm = TRUE) # mean distance (km)
 mean(ebd_basic$effort_area_ha, na.rm = TRUE) # mean area (ha)
 mean(ebd_basic$number_observers, na.rm = TRUE) # mean number observers
+
+## Visualize data by date ------------------------
+min_year <- as.integer(format(min(ebd_basic$observation_date, na.rm = TRUE), "%Y"))
+max_year <- as.integer(format(max(ebd_basic$observation_date, na.rm = TRUE), "%Y"))
+start_year <- floor(min_year / 25) * 25
+end_year <- ceiling((max_year + 1) / 25) * 25
+start_date <- as.Date(paste0(start_year, "-01-01"))
+end_date <- as.Date(paste0(end_year, "-01-01"))
+ggplot(ebd_basic %>% select(checklist_id, observation_date) %>% distinct(), aes(x = observation_date)) +
+    geom_histogram(binwidth = 365 * 5, color = "black", fill = "#007bb8") +
+    scale_x_date(breaks = seq(start_date, end_date, by = "25 years"), date_labels = "%Y") +
+    scale_y_log10(
+        breaks = 10^(0:7),
+        labels = scales::comma,
+        minor_breaks = rep(1:9, each = 5) * 10^rep(0:7, times = 9),
+    ) +
+    labs(x = "Observation Date", y = "Number of Checklists") +
+    theme_pubclean() +
+    theme(
+        axis.title = element_text(size = 26),
+        axis.text = element_text(size = 18),
+        axis.ticks = element_line(color = "black", size = 1.2),
+        axis.ticks.length = unit(0.4, "cm"),
+        panel.grid.major.y = element_line(color = "black", linewidth = 0.5, linetype = "dashed"),
+        panel.grid.minor.y = element_line(color = "grey85", linewidth = 0.3)
+    )
