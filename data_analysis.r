@@ -3,6 +3,7 @@
 ## Source code ------------------------
 source("helper_scripts/data_prepare.r")
 source("helper_scripts/theme.r")
+source("helper_scripts/shapefiles.r")
 
 ## Summarize species data ------------------------
 edb_basic_species <- ebd_basic %>%
@@ -70,3 +71,18 @@ ggplot(ebd_basic %>% select(checklist_id, observation_date) %>% distinct(), aes(
     labs(x = "Observation Date", y = "Number of Checklists") +
     theme_pubclean() +
     custom_theme
+
+# Create observations hex density map ---------------------------
+ggplot() +
+    geom_hex(data = ebd_basic, aes(longitude, latitude), bins = 10) +
+    geom_sf(data = belize_map, linewidth = 1, color = "black", fill = "#e9e9e9", alpha = 0.3) +
+    scale_fill_gradientn(colours = palette_cont) +
+    annotation_scale(location = "br", width_hint = 0.2, style = "ticks") +
+    annotation_north_arrow(location = "tl", which_north = "true", style = north_arrow_fancy_orienteering) +
+    theme_minimal() +
+    theme(
+        legend.text = element_text(size = 8),
+        legend.title = element_text(size = 9),
+        legend.key.size = unit(0.5, "cm"),
+        legend.spacing.y = unit(0.2, "cm")
+    )
