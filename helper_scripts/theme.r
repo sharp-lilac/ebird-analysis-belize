@@ -10,6 +10,8 @@ custom_theme <- theme(
     axis.text = element_text(size = 18),
     axis.ticks = element_line(color = "black", size = 1.2),
     axis.ticks.length = unit(0.4, "cm"),
+    legend.text = element_text(size = 12),
+    legend.title = element_text(size = 16),
     panel.grid.major.y = element_line(color = "black", linewidth = 0.5, linetype = "dashed"),
     panel.grid.minor.y = element_line(color = "grey85", linewidth = 0.3)
 )
