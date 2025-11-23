@@ -60,7 +60,7 @@ start_year <- floor(min_year / 25) * 25
 end_year <- ceiling((max_year + 1) / 25) * 25
 start_date <- as.Date(paste0(start_year, "-01-01"))
 end_date <- as.Date(paste0(end_year, "-01-01"))
-ggplot(ebd_basic %>% select(checklist_id, observation_date) %>% distinct(), aes(x = observation_date)) +
+plot_date <- ggplot(ebd_basic %>% select(checklist_id, observation_date) %>% distinct(), aes(x = observation_date)) +
     geom_histogram(binwidth = 365 * 5, color = "black", fill = palette[1]) +
     scale_x_date(breaks = seq(start_date, end_date, by = "25 years"), date_labels = "%Y") +
     scale_y_log10(
@@ -71,10 +71,11 @@ ggplot(ebd_basic %>% select(checklist_id, observation_date) %>% distinct(), aes(
     labs(x = "Observation Date", y = "Number of Checklists") +
     theme_pubclean() +
     custom_theme
+ggsave("outputs/plot_date.png", plot_date, height = 6, width = 12)
 
 # Create observations hex density map ---------------------------
-ggplot() +
-    geom_hex(data = ebd_basic, aes(longitude, latitude), bins = 40) +
+plot_map <- ggplot() +
+    geom_hex(data = ebd_basic, aes(longitude, latitude), bins = 20) +
     geom_sf(data = belize_map, linewidth = 1, color = "black", fill = "#e9e9e9", alpha = 0.3) +
     scale_fill_gradientn(
         colours = palette_cont,
@@ -85,3 +86,4 @@ ggplot() +
     annotation_north_arrow(location = "tl", which_north = "true", style = north_arrow_fancy_orienteering) +
     theme_minimal() +
     custom_theme
+ggsave("outputs/plot_map.png", plot_map, height = 12, width = 12)
