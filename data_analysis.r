@@ -48,10 +48,10 @@ edb_basic_locality <- ebd_basic %>%
 edb_basic_locality # most common localities of observations
 
 ## Summarize data by effort ------------------------
-mean(ebd_basic$duration_minutes, na.rm = TRUE) # mean duration (minutes)
-mean(ebd_basic$effort_distance_km, na.rm = TRUE) # mean distance (km)
-mean(ebd_basic$effort_area_ha, na.rm = TRUE) # mean area (ha)
-mean(ebd_basic$number_observers, na.rm = TRUE) # mean number observers
+summary(ebd_basic$duration_minutes, na.rm = TRUE) # variation and central tendency duration (minutes)
+summary(ebd_basic$effort_distance_km, na.rm = TRUE) # variation and central tendency distance (km)
+summary(ebd_basic$effort_area_ha, na.rm = TRUE) # variation and central tendency area (ha)
+summary(ebd_basic$number_observers, na.rm = TRUE) # variation and central tendency number observers
 
 ## Visualize data by date ------------------------
 min_year <- as.integer(format(min(ebd_basic$observation_date, na.rm = TRUE), "%Y"))
