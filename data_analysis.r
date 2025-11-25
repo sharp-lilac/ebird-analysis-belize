@@ -170,3 +170,21 @@ plot_map_log <- ggplot() +
     theme_minimal() +
     custom_theme
 ggsave("outputs/plot_map_log.png", plot_map_log, height = 12, width = 12)
+
+# Create observations hex density map (log transformed, with protected areas) ---------------------------
+plot_map_PAs <- ggplot() +
+    geom_hex(data = ebd_basic, aes(longitude, latitude), bins = 20) +
+    geom_sf(data = belize_map, linewidth = 1, color = "black", fill = "#e9e9e9", alpha = 0.3) +
+    scale_fill_gradientn(
+        colours = palette_cont,
+        name = "Observation Density",
+        trans = "log10",
+        breaks = scales::log_breaks(n = 6),
+        labels = scales::comma
+    ) +
+    geom_sf(data = protected_map, linewidth = 0.25, color = "black", fill = "grey", alpha = 0.3) +
+    annotation_scale(location = "br", width_hint = 0.2, style = "ticks") +
+    annotation_north_arrow(location = "tl", which_north = "true", style = north_arrow_fancy_orienteering) +
+    theme_minimal() +
+    custom_theme
+ggsave("outputs/plot_map_PAs.png", plot_map_PAs, height = 12, width = 12)
