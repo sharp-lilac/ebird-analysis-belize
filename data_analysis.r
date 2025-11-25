@@ -107,11 +107,13 @@ plot_line <- ggplot(df_checklists_locality, aes(x = as.numeric(Year), y = Value,
     theme_pubclean() +
     custom_theme +
     theme(
-        legend.position = "right",
-        legend.text = element_text(size = 18),
-        strip.text = element_text(size = 16)
-    )
-ggsave("outputs/plot_line.png", plot_line, height = 8, width = 16)
+        legend.position = "bottom",
+        legend.text = element_text(size = 20),
+        legend.title = element_text(size = 20),
+        strip.text = element_text(size = 20)
+    ) +
+    guides(color = guide_legend(nrow = 5, byrow = TRUE))
+ggsave("outputs/plot_line.png", plot_line, height = 10, width = 16)
 
 ## Summarize data by effort ------------------------
 summary(ebd_basic$duration_minutes, na.rm = TRUE) # variation and central tendency duration (minutes)
