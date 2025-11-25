@@ -1,7 +1,10 @@
 # theme.r
 
 ## Define color palettes ------------------------
-palette <- c("#007bb8", "#E6A93A", "#7BB800") # discrete
+palette <- c(
+    "#007bb8", "#E6A93A", "#7BB800", "#eeaadc", "#a3d1e1",
+    "#bb75e7", "#d85b5b", "#cee406", "#755656", "#4cb1b5"
+) # discrete
 palette_cont <- c("#f3fafd", "#a3d1e1", "#e6e64c", "#ddb263", "red") # continuous
 
 ## Define ggplot theme ------------------------

@@ -6,6 +6,12 @@ source("helper_scripts/theme.r")
 source("helper_scripts/shapefiles.r")
 
 ## Summarize species data ------------------------
+edb_basic_taxa <- ebd_basic %>%
+    group_by(taxonomic_order, common_name) %>%
+    summarize(
+        Count = n()
+    ) %>%
+    arrange(desc(Count))
 edb_basic_species <- ebd_basic %>%
     filter(category == "species") %>%
     group_by(scientific_name, common_name) %>%
@@ -14,6 +20,7 @@ edb_basic_species <- ebd_basic %>%
     ) %>%
     arrange(desc(Count))
 head(edb_basic_species, 10) # top 10 most common species observed
+tail(edb_basic_species, 30) # top 10 least common species observed
 nrow(edb_basic_species) # number of unique species observed
 nrow(filter(edb_basic_species, Count == 1)) # number of unique species observed once
 nrow(filter(edb_basic_species, Count < 10)) # number of unique species observed less than 10 times
@@ -25,6 +32,7 @@ df_rank_all <- edb_basic_species %>%
         Rank = row_number(),
         RelAbund = Count / sum(Count)
     )
+
 fig_rank <- ggplot(df_rank_all, aes(x = Rank, y = RelAbund)) +
     geom_line(linewidth = 0.7, alpha = 0.5) +
     geom_point(size = 0.7, alpha = 0.5) +
@@ -52,6 +60,7 @@ length(unique(ebd_basic$checklist_id)) # number of approved checklists
 length(unique(ebd_unvetted$checklist_id)) # number of unvetted checklists
 nrow(ebd_basic) # number of approved observations
 nrow(ebd_unvetted) # number of unvetted observations
+length(unique(ebd_basic$observer_id)) # number of observers
 
 ## Summarize data sources ------------------------
 edb_basic_source <- ebd_basic %>%
@@ -77,6 +86,32 @@ edb_basic_locality <- ebd_basic %>%
     ) %>%
     arrange(desc(Count))
 edb_basic_locality # most common localities of observations
+top_edb_basic_locality <- head(edb_basic_locality, 10)$locality
+
+# Regression of unique observers and unique checklists per year ------------------------
+df_checklists_locality <- ebd_basic %>%
+    filter(locality %in% top_edb_basic_locality) %>%
+    filter(observation_type != "Historical" & observation_type != "Incidental") %>%
+    mutate(Year = format(observation_date, "%Y")) %>%
+    group_by(Year, locality) %>%
+    summarize(
+        Checklists = n_distinct(checklist_id),
+        Observers = n_distinct(observer_id)
+    ) %>%
+    pivot_longer(cols = c(Checklists, Observers), names_to = "Metric", values_to = "Value")
+plot_line <- ggplot(df_checklists_locality, aes(x = as.numeric(Year), y = Value, color = locality)) +
+    geom_smooth(se = FALSE) +
+    facet_wrap(~Metric) +
+    scale_color_manual(values = palette) +
+    labs(x = "Year", y = "Count", color = "Locality") +
+    theme_pubclean() +
+    custom_theme +
+    theme(
+        legend.position = "right",
+        legend.text = element_text(size = 18),
+        strip.text = element_text(size = 16)
+    )
+ggsave("outputs/plot_line.png", plot_line, height = 8, width = 16)
 
 ## Summarize data by effort ------------------------
 summary(ebd_basic$duration_minutes, na.rm = TRUE) # variation and central tendency duration (minutes)
