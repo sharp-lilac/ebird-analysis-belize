@@ -15,6 +15,29 @@ edb_basic_species <- ebd_basic %>%
     arrange(desc(Count))
 head(edb_basic_species, 10) # top 10 most common species observed
 nrow(edb_basic_species) # number of unique species observed
+nrow(filter(edb_basic_species, Count == 1)) # number of unique species observed once
+nrow(filter(edb_basic_species, Count < 10)) # number of unique species observed less than 10 times
+
+## Visualize species data ------------------------
+df_rank_all <- edb_basic_species %>%
+    ungroup() %>%
+    mutate(
+        Rank = row_number(),
+        RelAbund = Count / sum(Count)
+    )
+fig_rank <- ggplot(df_rank_all, aes(x = Rank, y = RelAbund)) +
+    geom_line(linewidth = 0.7, alpha = 0.5) +
+    geom_point(size = 0.7, alpha = 0.5) +
+    labs(x = "Species Rank", y = "Relative Abundance") +
+    scale_y_log10(
+        breaks = 10^(-9:0),
+        labels = scales::comma,
+        minor_breaks = rep(1:9, each = 5) * 10^rep(-9:0, times = 9),
+    ) +
+    scale_x_continuous(breaks = seq(0, max(df_rank_all$Rank, na.rm = TRUE), by = 50)) +
+    theme_pubclean() +
+    custom_theme
+ggsave("outputs/fig_rank.png", fig_rank, height = 8, width = 12)
 
 ## Summarize data availability ------------------------
 length(unique(ebd_basic$checklist_id)) # number of approved checklists
