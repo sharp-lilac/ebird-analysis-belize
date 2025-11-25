@@ -188,3 +188,15 @@ plot_map_PAs <- ggplot() +
     theme_minimal() +
     custom_theme
 ggsave("outputs/plot_map_PAs.png", plot_map_PAs, height = 12, width = 12)
+
+# Calculate percentage of observations in protected areas ------------------------------
+ebd_sf <- ebd_basic %>%
+    st_as_sf(coords = c("longitude", "latitude"), crs = 4326, remove = FALSE)
+protected_sf <- st_transform(protected_map, st_crs(ebd_sf)) %>%
+    filter(st_is_valid(geometry))
+ebd_with_PA <- st_join(ebd_sf, protected_sf, join = st_within)
+total_obs <- nrow(ebd_with_PA)
+inside_obs <- sum(!is.na(ebd_with_PA$NAME))
+outside_obs <- total_obs - inside_obs
+inside_obs / total_obs * 100 # percentage of observations inside PAs
+outside_obs / total_obs * 100 # percentage of observations outside PAs
