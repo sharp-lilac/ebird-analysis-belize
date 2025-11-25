@@ -38,6 +38,14 @@ fig_rank <- ggplot(df_rank_all, aes(x = Rank, y = RelAbund)) +
     theme_pubclean() +
     custom_theme
 ggsave("outputs/fig_rank.png", fig_rank, height = 8, width = 12)
+fig_rank_untransformed <- ggplot(df_rank_all, aes(x = Rank, y = RelAbund)) +
+    geom_line(linewidth = 0.7, alpha = 0.5) +
+    geom_point(size = 0.7, alpha = 0.5) +
+    labs(x = "Species Rank", y = "Relative Abundance") +
+    scale_x_continuous(breaks = seq(0, max(df_rank_all$Rank, na.rm = TRUE), by = 50)) +
+    theme_pubclean() +
+    custom_theme
+ggsave("outputs/fig_rank_untransformed.png", fig_rank_untransformed, height = 8, width = 12)
 
 ## Summarize data availability ------------------------
 length(unique(ebd_basic$checklist_id)) # number of approved checklists
