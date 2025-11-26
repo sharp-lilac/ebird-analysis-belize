@@ -10,7 +10,5 @@ authors:
     name: "Jessica C. Boles (sharp-lilac)"
     orcid: "https://orcid.org/0000-0002-4371-7621"
 license: "CC-BY-4.0"
-repository-code: "https://github.com/sharp-lilac/ebird-analysis-belize"
-identifiers:
-  - type: doi
-    value: "10.5281/zenodo.17727641"
+url: "https://github.com/sharp-lilac/ebird-analysis-belize"
+doi: "10.5281/zenodo.17727641"
