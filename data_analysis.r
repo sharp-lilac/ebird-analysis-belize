@@ -202,3 +202,9 @@ inside_obs <- sum(!is.na(ebd_with_PA$NAME))
 outside_obs <- total_obs - inside_obs
 inside_obs / total_obs * 100 # percentage of observations inside PAs
 outside_obs / total_obs * 100 # percentage of observations outside PAs
+
+# Calculate percentage of observations done using PROALAS ------------------------------
+proalas_projects <- c("PROALAS—General", "PROALAS — Belize", "PROALAS — Belize|PROALAS—General")
+ebd_basic_proalas <- ebd_basic %>%
+    filter(project_names %in% proalas_projects)
+nrow(ebd_basic_proalas) / nrow(ebd_basic) * 100 # percentage of observations done using PROALAS

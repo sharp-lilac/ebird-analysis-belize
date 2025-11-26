@@ -20,7 +20,7 @@ selection_columns <- c(
     "scientific_name", "subspecies_common_name", "subspecies_scientific_name",
     "breeding_category", "behavior_code", "age_sex", "time_observations_started",
     "observer_id", "observation_type", "duration_minutes", "effort_distance_km",
-    "effort_area_ha", "number_observers", "all_species_reported", "approved"
+    "effort_area_ha", "number_observers", "all_species_reported", "approved", "project_names"
 )
 ebd_basic <- read_ebd_basic %>%
     select(selection_columns)
