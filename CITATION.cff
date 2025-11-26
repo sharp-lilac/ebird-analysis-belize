@@ -12,5 +12,5 @@ authors:
 license: "CC-BY-4.0"
 repository-code: "https://github.com/sharp-lilac/ebird-analysis-belize"
 identifiers:
-   - type: doi
-     value: "10.5281/zenodo.17727641"
+  - type: doi
+    value: "10.5281/zenodo.17727641"
