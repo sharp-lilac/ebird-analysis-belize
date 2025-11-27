@@ -18,7 +18,7 @@ edb_basic_species <- ebd_basic %>%
     summarize(
         Count = n()
     ) %>%
-    arrange(desc(Count))
+    arrange(desc(Count)) # note: this does not include rock pigeon, which is classified as wild on eBird
 head(edb_basic_species, 10) # top 10 most common species observed
 tail(edb_basic_species, 30) # top 10 least common species observed
 nrow(edb_basic_species) # number of unique species observed
